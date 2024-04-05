@@ -61,13 +61,15 @@ int main(int argc, char const *argv[]) {
         return 0;
     }
 
-    if ((!strcmp(argv[1], "clear")) || (!strcmp(argv[1], "clean"))) {
+    if (!strcmp(argv[1], "clean")) {
         remove(filename);
         return 0;
     }
 
     help:
-    printf("list - lists tasks\nadd - adds task\nrm - removes task\n"
-           "clear/clean - removes ~/.TODO\n");
+    printf("list - lists tasks\n"
+           "add task1 task2 task3 ... - adds tasks\n"
+           "rm n1 n2 n3 ... - removes task with number nx (see number in `todo list`)\n"
+           "clean - removes ~/.TODO\n");
     return 0;
 }
