@@ -1,18 +1,18 @@
-exe := todo
+target := todo
 cc := gcc
 flags := -O3
 # flags = -g -fsanitize=address
 
 .PHONY: clean install uninstall
 
-$(exe): *.c
-	$(cc) *.c -o $(exe) $(flags)
+$(target): *.c
+	$(cc) *.c -o $(target) $(flags)
 
 clean:
-	rm -f $(exe)
+	rm -f $(target)
 
 install: todo
-	mv $(exe) /usr/local/bin
+	mv $(target) /usr/local/bin
 
 uninstall:
-	rm /usr/local/bin/$(exe)
+	rm /usr/local/bin/$(target)
