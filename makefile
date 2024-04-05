@@ -1,10 +1,11 @@
 cc = tcc
 exe = todo
+flags = -g -fsanitize=address
 
 .PHONY: clean
 
-todo: todo.c
-	$(cc) todo.c -o $(exe) -fsanitize=address
+todo: *.c
+	$(cc) *.c -o $(exe) $(flags)
 
 clean:
 	rm -f $(exe)

@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern void delete_line(FILE* fp, int n);
+extern int count_lines(FILE *fp);
+
+int cmpfunc(const void *a, const void *b) {
+   return (*(int*)b - *(int*)a);
+}
+
 int main(int argc, char const *argv[]) {
     if (argc < 2) { goto help; }
 
@@ -31,7 +38,27 @@ int main(int argc, char const *argv[]) {
     }
 
     if (!strcmp(argv[1], "rm")) {
-        /* todo */
+        FILE *file = fopen(filename, "r+");
+        int *to_delete = malloc(sizeof *to_delete * (argc-2));
+        int num_lines = count_lines(file);
+
+        for (int i = 0; i < argc-2; ++i) {
+            to_delete[i] = atoi(argv[i+2]);
+            if (to_delete[i] < 0 || to_delete[i] >= num_lines){
+                fprintf(stderr, "file doesnt have line %d\n", to_delete[i]);
+                goto rm_end;
+            }
+        }
+
+        qsort(to_delete, argc-2, sizeof *to_delete, cmpfunc);
+        for (int i = 0; i < argc-2; ++i) {
+            delete_line(file, to_delete[i]);
+        }
+
+        rm_end:
+        free(to_delete);
+        fclose(file);
+        return 0;
     }
 
     if ((!strcmp(argv[1], "clear")) || (!strcmp(argv[1], "clean"))) {
