@@ -22,17 +22,13 @@ int main(int argc, char const *argv[]) {
     }
 
     if (!strcmp(argv[1], "list")) {
-        /* fixme */
         FILE *file = fopen(filename, "a+");
-        char c = fgetc(file);
+        char *line = NULL;
+        size_t len = 0;
         int num = 0;
-        printf("0 ");
-        while (c != EOF) {
-            if(c != '\n') printf("%c", c);
-            else printf("\n%d ", ++num);
-            c = fgetc(file);
-        }
-        printf("\b\b");
+        while (getline(&line, &len, file) != -1)
+            printf("%d\t%s", num++, line);
+        if (line) free(line);
         fclose(file);
         return 0;
     }
